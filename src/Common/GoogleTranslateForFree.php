@@ -25,7 +25,6 @@ use Exception;
  * Main class GoogleTranslateForFree.
  */
 class GoogleTranslateForFree{
-    public static string $userAgent;
     public static int $useProxy = 0;
     public static string $proxy;
 
@@ -127,7 +126,6 @@ class GoogleTranslateForFree{
 
         if(GoogleTranslateForFree::$useProxy == 1) {
             $result = Database::getConnection()->query("SELECT * FROM `proxy` WHERE `status`='0' ORDER BY RAND() LIMIT 1");
-
             if(!$result->RowCount()) {
                 Helper::printPre("Прокси отсутствуют", true);
             }
@@ -164,12 +162,12 @@ class GoogleTranslateForFree{
 
         if($result === false) {
             $return = ['status' => false, 'body' => "Ошибка curl: ".curl_error($ch).(isset($proxy[0]) ? ": Прокси: ".($proxy[0]) : "")];
-            Mods::removeItems(0);
+            Mods::removeItems();
             Helper::printPre($return, true);
         }
         else if(strlen($result) < 1) {
             $return = ['status' => false, 'body' => "Пустая страница"];
-            Mods::removeItems(0);
+            Mods::removeItems();
             Helper::printPre($return, true);
         }
 
@@ -178,7 +176,8 @@ class GoogleTranslateForFree{
         if(false === $result || 200 !== $httpcode) {
             if($i >= $attempts) {
                 return ''; // Could not connect and get data
-            } else {
+            }
+            else {
                 usleep(1500000); // timeout 1.5 sec
                 return GoogleTranslateForFree::curlRequest($url, $fields, $fields_string, $i, $attempts);
             }

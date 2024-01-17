@@ -3,19 +3,21 @@
  * Автоматический парсинг с главной страницы, запуск 1 раз в 12 часов.
  */
 //$start = microtime(true);
+use Api\Common\Helper;
 use Api\Parser\Parser;
+use Api\Common\GoogleTranslateForFree;
 
 const PARSER_ROOT = __DIR__;
 define('ROOT', dirname(__DIR__)); 
 
 include_once ROOT."/autoload.php";
 
-$parser = new Parser();
 try {
+    $parser = new Parser();
     $parser->mainPageParse();
 }
 catch(Exception $exception)  {
-    print_r($exception->getMessage());
+    Helper::printPre($exception->getMessage());
 }
 
 //$memory = memory_get_usage();

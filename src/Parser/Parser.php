@@ -34,15 +34,21 @@ class Parser extends Helper {
     private mixed $shortBoxBody;
     private mixed $htmlQuery;
 
+    public static string|null $proxyFile = null;
+
     /**
-     * Конструктур 
+     * Конструктур
+     * @throws \Exception
      */
     public function __construct() {
+        require_once ROOT.'/Parser/settings.php';
         $this->database = Database::getConnection();
         $stmt =$this->database->query("SELECT * FROM `p_settings`");
         while($row = $stmt->fetchAll()){
             $this->settings[$row['set_name']] = $row['set_value'];
         }
+        $this->addProxy();
+
     }
     
     ##################################
@@ -184,7 +190,8 @@ class Parser extends Helper {
     #######################################
     /**
      * Router
-     */    
+     * @throws \Exception
+     */
     public function Router(): void
     {
         /*
@@ -192,7 +199,7 @@ class Parser extends Helper {
          * Определения текущей функции для обработки мода
          * Запуск функции 
          */
-        $modQuery =$this->database->query("SELECT * FROM `parser_data` WHERE `status`='0' LIMIT 1");
+        $modQuery = $this->database->query("SELECT * FROM `parser_data` WHERE `status`='0' LIMIT 1");
         if($modQuery->rowCount()){
             $this->modData = $modQuery->fetchAll();
             $funcName = "parse".$this->modData['category'];
@@ -597,14 +604,22 @@ class Parser extends Helper {
      */
     public function addProxy(): void
     {
-        $proxyFile = file(PARSER_ROOT."/proxy.txt");
-        for($i = 0; $i < count($proxyFile); $i++ ){
-            $bindProxy = [
-                ':proxy' => trim($proxyFile[$i])
-            ];
-            $stmt = $this->database->prepare("INSERT IGNORE INTO proxy(proxy, uptime) VALUES (:proxy, 0)");
-            $stmt->execute( $bindProxy );
+        if(GoogleTranslateForFree::$useProxy){
+            $filename = ROOT."/".self::$proxyFile;
+            if(!file_exists($filename)){
+                Helper::printPre("Файл proxy.txt не найден", true, true);
+            }
+            $proxyFile = file($filename, FILE_SKIP_EMPTY_LINES);
+            $proxyCount = count($proxyFile);
+            for($i = 0; $i < $proxyCount; $i++){
+                $bindProxy = [
+                    ':proxy' => trim($proxyFile[$i])
+                ];
+                $stmt = $this->database->prepare("INSERT IGNORE INTO proxy(proxy, uptime) VALUES (:proxy, 0)");
+                $stmt->execute( $bindProxy );
+            }
         }
+
     }
 
 }
