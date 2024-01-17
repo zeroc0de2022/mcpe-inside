@@ -1,0 +1,11 @@
+Options -Indexes
+RewriteEngine On
+#RewriteRule ^([^\.]+)$ $1.php [NC,L] #Remove the .php
+
+AddDefaultCharset utf-8
+
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/main_catalog/
+RewriteRule ^(.*)$ index.php

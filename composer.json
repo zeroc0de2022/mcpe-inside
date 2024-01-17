@@ -1,0 +1,17 @@
+{
+    "name": "zeroc0de/api",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Api\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "zeroc0de2022",
+            "email": "98693638+zeroc0de2022@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

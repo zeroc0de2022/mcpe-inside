@@ -1,0 +1,29 @@
+/types-list?lang=ru&types=mods,maps
+/types-list?lang=ru&types=mods&subtypes[]=decorations
+/types-list?lang=ru&types=mods&subtypes[]=decorations,weapons,cars
+/types-list?lang=ru&types=mods,maps&subtypes[]=decorations,weapons,cars&subtypes[]=castles,houses,modern
+/types-list?lang=ru
+
+/versions?dots=1
+/versions?dots=2
+
+/posts?lang=ru&category=mods&subcategory=all&page=1&version=all&sort=downloads
+/posts?lang=en&category=maps&subcategory=modern&page=2&version=1.15&sort=date
+/posts?lang=en&category=maps&subcategory=modern&version=1.15&sort=date
+
+/search?lang=en&category=maps&subcategory=modern&version=1.15&sort=date&search-phrase=house&title=on&description=off
+/search?lang=en&category=maps&sort=date&search-phrase=house&title=on&description=on
+
+
+/posts?lang=ru&category=mods&subcategory=all&page=1&version=all&sort=downloads
+/posts?lang=ru&category=mods&page=1&version=all&sort=downloads
+/posts?lang=en&category=maps&page=2&version=1.15&sort=date
+/posts?lang=en&category=maps&version=1.15&sort=date
+    lang, category, sort как обязательные
+    version, page как необязательные
+
+
+/update?action=like&item_id=1
+/update?action=dislike&item_id=1
+/update?action=view&item_id=1
+/update?action=downloads&file_id=1
